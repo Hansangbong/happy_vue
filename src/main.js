@@ -1,9 +1,12 @@
+//Entry Point (시작점)
 import { createApp } from 'vue';
-import App from './App.vue';
+//import App from './App.vue';
+import App from './App3.vue';
 import router from './router';
 import store from './store';
 import axios from 'axios';
 import Modal from 'vue-bs-modal';
+
 
 //local css 적용
 import './assets/css/admin/reset.css';
