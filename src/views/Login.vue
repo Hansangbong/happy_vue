@@ -111,7 +111,7 @@ export default {
                             loginId: data.loginId,
                             userNm: data.userNm,
                             userType: data.userType,
-                            usrMnuAtrt: data.usrMnuAtrt,
+                           usrMnuAtrt: data.usrMnuAtrt,
                         });
                         sessionStorage.setItem('loginInfo', JSON.stringify(data));
                         sessionStorage.setItem('loginId', data.loginId);

@@ -3,7 +3,7 @@
         <div>
             <p class="conTitle">
                 <span>장비 목록</span>
-                <button class="btn btn-light" style="float: right; margin-top: 10px">장비 신규등록</button>
+                <button class="btn btn-light" style="float: right; margin-top: 10px" @click="modalHandler">장비 신규등록</button>
             </p>
             <div style="float: left">
                 <b> 총건수 : 0 현재 페이지 번호 : 0 </b>
@@ -20,15 +20,71 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td colspan="5" style="text-align: center">데이터가 없습니다</td>
+                    <tr v-for="data in dataList" :key="data.equ_id">
+                        <th>{{ data.lecrm_name }}</th>
+                            <td>{{ data.equ_name }}</td>
+                            <td>{{ data.equ_num }}</td>
+                            <td>{{ data.equ_note }}</td>
+                            <td><button class="btn btn-outline-dark btn-sm" @click="modalHandler(data.equ_id)">수정</button></td>
+                        
                     </tr>
+                    <!-- <tr>
+                        <td colspan="5" style="text-align: center">데이터가 없습니다</td>
+                    </tr> -->
                 </tbody>
             </table>
         </div>
+        <pagination v-bind="{currentPage, totalItems: total, itemsPerPage: 6}" @search="searchLecture($event)"/>
+        <ModalEquipment v-if="modalBoolean" @closeModal="modalBoolean=$event"
+         :lectureId="lectureId"
+        @closeAndSearch="modalClose"
+        :equipId="equipId"/>
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import ModalEquipment from './ModalEquipment.vue';
+import axios from 'axios';
+
+const route = useRoute();
+const lectureId = ref(route.params.id);
+const dataList = ref([]);
+const modalBoolean = ref(false);
+const equipId = ref(0);
+const total = ref(0);
+const currentPage = ref(0);
+
+const getEquipmentList = (cpage) => {
+    cpage = cpage || 1;
+    let param = new URLSearchParams();
+    param.append('cpage', cpage);
+    param.append('pagesize', 5);
+    param.append('lecrm_id', lectureId.value);
+
+    axios.post('/adm/equListjson.do', param).
+        then((res) => {
+            dataList.value = res.data.listdata;
+            total.value = res.data.listcnt;
+            currentPage.value = res.data.cpage;
+        });
+    
+}
+
+const modalHandler = (param) => {
+    modalBoolean.value = true;
+    equipId.value = param;
+};
+
+const modalClose = (param) => {
+    modalBoolean.value = param;
+    getEquipmentList();
+}
+
+onMounted(() => {
+    getEquipmentList();
+});
+</script>
 
 <style></style>

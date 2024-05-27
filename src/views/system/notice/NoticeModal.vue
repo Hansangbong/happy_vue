@@ -13,63 +13,26 @@
                             <div class="modal-body">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">제목</span>
-                                    <input type="text" class="form-control" v-model="noticeDetail.notice_tit" />
+                                    <input type="text" class="form-control" v-model="noticeData.notice_tit"/>
                                 </div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">로그인 아이디</span>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        v-model="noticeDetail.loginID"
-                                        v-if="detailProps"
-                                        disabled
-                                    />
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        v-model="this.userInfo.loginId"
-                                        v-else
-                                        disabled
-                                    />
+                                    <input type="text" class="form-control" disabled v-model="this.userInfo.loginId"/>
+                                    <input type="text" class="form-control" disabled />
                                 </div>
                                 <div class="input-group mb-3" v-show="detailProps">
                                     <span class="input-group-text">작성자</span>
-                                    <input type="text" class="form-control" v-model="noticeDetail.name" disabled />
+                                    <input type="text" class="form-control" disabled v-model="noticeData.name"/>
                                 </div>
                                 <div class="input-group mb-3" style="min-height: 200px">
                                     <span class="input-group-text">내용</span>
-                                    <textarea
-                                        style="resize: none"
-                                        class="form-control"
-                                        v-model="noticeDetail.notice_con"
-                                    />
+                                    <textarea style="resize: none" class="form-control" v-model="noticeData.notice_con"/>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button
-                                    type="button"
-                                    class="btn btn-info"
-                                    @click="insertNoticeDetail"
-                                    v-show="!detailProps"
-                                >
-                                    등록
-                                </button>
-                                <button
-                                    type="button"
-                                    class="btn btn-info"
-                                    @click="updateNoticeDetail"
-                                    v-show="detailProps"
-                                >
-                                    수정
-                                </button>
-                                <button
-                                    type="button"
-                                    class="btn btn-info"
-                                    @click="deleteNoticeDetail"
-                                    v-show="detailProps"
-                                >
-                                    삭제
-                                </button>
+                                <button type="button" class="btn btn-info" @click="insertNoticeDetail">등록</button>
+                                <button type="button" class="btn btn-info">수정</button>
+                                <button type="button" class="btn btn-info">삭제</button>
                                 <button type="button" class="btn btn-light" @click="$emit('closeModal', false)">
                                     닫기
                                 </button>
@@ -86,10 +49,10 @@
 import axios from 'axios';
 
 export default {
-    props: ['detailProps', 'functionProps', 'emitProps'],
+    props: ['functionProps'],
     data() {
         return {
-            noticeDetail: {},
+            noticeData: {notice},
         };
     },
     computed: {
@@ -98,23 +61,15 @@ export default {
         },
     },
     methods: {
-        getNoticeDetail() {
+        insertNoticeDetail() {
             let param = new URLSearchParams();
-            param.append('notice_id', this.detailProps);
+            param.append('loginId', this.userInfo.loginId);
 
-            axios.post('/notice/noticeView.do', param).then((res) => {
-                this.noticeDetail = res.data.selinfo;
-            });
-        },
-        updateNoticeDetail() {
-            let param = new URLSearchParams(this.noticeDetail);
-            axios.post('/notice/noticeModify.do', param).then((res) => {
-                if (res.data.result == 'sucess') {
+            axios.post('/notice/noticeSave.do', param).then((res) => {
+                if (res.data.result === 'sucess') {
                     alert(res.data.msg);
                     this.$emit('closeModal', false);
-                    this.functionProps(this.emitProps);
-                } else {
-                    alert(res.data.msg);
+                    this.getNoticeList();
                 }
             });
         },
@@ -131,23 +86,7 @@ export default {
                 }
             });
         },
-        insertNoticeDetail() {
-            let param = new URLSearchParams(this.noticeDetail);
-            param.append('loginID', this.userInfo.loginId);
-            axios.post('/notice/noticeSave.do', param).then((res) => {
-                if (res.data.result == 'sucess') {
-                    alert(res.data.msg);
-                    this.$emit('closeModal', false);
-                    this.functionProps();
-                } else {
-                    alert(res.data.msg);
-                }
-            });
-        },
-    },
-    mounted() {
-        this.detailProps ? this.getNoticeDetail() : null;
-    },
+    }
 };
 </script>
 

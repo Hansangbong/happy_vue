@@ -1,5 +1,5 @@
 <template>
-    <NoticeList></NoticeList>
+    <NoticeList>후에엥</NoticeList>
 </template>
 
 <script>
