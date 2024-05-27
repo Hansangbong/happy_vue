@@ -27,7 +27,7 @@ import axios from 'axios';
 import { onMounted, ref, reactive } from 'vue'; //하나만 쓸 때도 중괄호 써줘야 에러 안 남
 import CardLecture from './CardLecture.vue';
 import { axiosAction } from '.';
-import SamplePage5 from '../SamplePage5.vue';
+import { SamplePage5 } from '@/api/api';
 
 
 const dataList = ref([]);  //배열이나 오브젝트만 가능
