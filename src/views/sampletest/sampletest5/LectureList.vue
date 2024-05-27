@@ -16,10 +16,13 @@
         <div>
             <b> 총건수 : 0 현재 페이지 번호 : 0 </b>
         </div>
-        <div class="row"></div>
+        <div class="row">
             <CardLecture v-for="(data) in dataList" :key="data.lecrm_id" :data="data"/>
+        </div>
+        <PaginationComponent v-bind="{currentPage, totalItems: total, itemsPerPage: 6}" @search="searchLecture($event)"/>
+        <p>나와라</p>        
     </div>
-    <pagination v-bind="{currentPage, totalItems: total, itemsPerPage: 6}" @search="searchLecture($event)"/>
+    
 </template>
 
 <script setup>
@@ -28,6 +31,7 @@ import { onMounted, ref, reactive } from 'vue'; //하나만 쓸 때도 중괄호
 import CardLecture from './CardLecture.vue';
 import { axiosAction } from '.';
 import { SamplePage5 } from '@/api/api';
+import PaginationComponent from '@/components/common/PaginationComponent.vue';
 
 
 const dataList = ref([]);  //배열이나 오브젝트만 가능

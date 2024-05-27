@@ -61,9 +61,9 @@ import EquipmentList from './EquipmentList.vue';
 const route = useRoute(); // uRL 이동
 const router = useRouter(); // 
 const id = ref(route.params.id);
-const lecture = reactive({ lecrm_name: '', lecrm_size: 0, lecrm_note: '' });
+const lecture = reactive({ lecrm_name: '', lecrm_size: 0, lecrm_note: '', lecrm_snum: 0 });
 const updateHandler = ref(id.value ? 'U' : 'I');
-const preLecture = Object;
+const preLecture = ref(Object);
 
 const getLectureDetail = () => {
     let param = new URLSearchParams();
@@ -74,7 +74,7 @@ const getLectureDetail = () => {
             lecture.lecrm_size = res.data.selinfo.lecrm_size;
             lecture.lecrm_snum = res.data.selinfo.lecrm_snum;
             lecture.lecrm_note = res.data.selinfo.lecrm_note;
-            preLecture = { ...lecture };
+            preLecture.value = { ...lecture };  //이거 왜 있지?
         });
 };
 
@@ -118,7 +118,8 @@ const deleteLectureDetail = () => {
 watch(lecture, (newData) => {
     if (newData.lecrm_name.length > 15) {
         alert("15자 이상입니다");
-        lecture.lecrm_name = preLecture.lecrm_name;
+        console.log("프리랙쳐의 네임: ",preLecture.value.lecrm_name);
+        lecture.lecrm_name = preLecture.value.lecrm_name;
 
     };
 });

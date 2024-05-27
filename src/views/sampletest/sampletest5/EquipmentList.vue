@@ -34,7 +34,7 @@
                 </tbody>
             </table>
         </div>
-        <pagination v-bind="{currentPage, totalItems: total, itemsPerPage: 6}" @search="searchLecture($event)"/>
+        <PaginationComponent v-bind="{currentPage, totalItems: total, itemsPerPage: 6}" @search="searchLecture($event)"/>
         <ModalEquipment v-if="modalBoolean" @closeModal="modalBoolean=$event"
          :lectureId="lectureId"
         @closeAndSearch="modalClose"
@@ -47,6 +47,7 @@ import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import ModalEquipment from './ModalEquipment.vue';
 import axios from 'axios';
+import PaginationComponent from '@/components/common/PaginationComponent.vue';
 
 const route = useRoute();
 const lectureId = ref(route.params.id);

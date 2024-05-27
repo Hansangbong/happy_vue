@@ -29,7 +29,7 @@
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">비고</span>
-                                <input type="text" class="form-control" />
+                                <input type="text" class="form-control" v-model="equipment.equ_note"/>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -61,7 +61,7 @@ const emit = defineEmits(['closeModal']);
 
 const postEquipmentDetail = () => {
     let param = new URLSearchParams(equipment.value);
-    param.append('action', 'I');
+    param.append('action', updateHandler.value);
     param.append('lecrm_id', props.lectureId);
 
     axios.post('/adm/equSave.do', param).
