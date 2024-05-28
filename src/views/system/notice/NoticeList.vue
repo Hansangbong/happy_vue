@@ -57,7 +57,8 @@
                 <colgroup>
                     <col width="10%" />
                     <col width="50%" />
-                    <col width="30%" />
+                    <col width="20%" />
+                    <col width="10%" />
                     <col width="10%" />
                 </colgroup>
 
@@ -65,17 +66,22 @@
                     <tr>
                         <th scope="col">번호</th>
                         <th scope="col">제목</th>
-                        <th scope="col">작성일</th>
                         <th scope="col">작성자</th>
+                        <th scope="col">등록일</th>
+                        <th scope="col">조회수</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
                     <template v-if="noticeList.length > 0">
                         <tr v-for="(list, i) in noticeList" :key="i">
-                            <td>{{ list.notice_id }}</td>
-                            <td>{{ list.notice_tit }}</td>
-                            <td>{{ list.regdate }}</td>
+                            <td>{{ i+1 }}</td>
+                            <td @click="viewDetail(list.notice_id)">
+                                {{ list.notice_tit }}</td>
                             <td>{{ list.name }}</td>
+                            <td>{{ list.regdate }}</td>
+                            <td>{{ list.hit }}</td>
+                            
                         </tr>
                     </template>
                     <template v-else>
@@ -92,7 +98,7 @@
                 v-if="totalItems > 0"
             />
         </div>
-        <NoticeModal v-if="modalState" @closeModal="modalState = false" :getNoticeList="getNoticeList" />
+        <NoticeModal v-if="modalState" @closeModal="modalState = false" :getNoticeList="getNoticeList" :selInfo="selInfo"  />
     </div>
 </template>
 
@@ -105,6 +111,7 @@ export default {
     data() {
         return {
             noticeList: [],
+            selInfo: {},
             paramObj: { searchtitle: '', searchstdate: '', searcheddate: '' },
             currentPage: 0,
             totalItems: 0,
@@ -127,6 +134,15 @@ export default {
         },
         modalHandler() {
             this.modalState = true;
+        },
+        viewDetail(id) {          // 제목 클릭 시 상새목록 조회
+            let param = new URLSearchParams();
+            param.append('notice_id', id); 
+            axios.post('/notice/noticeView.do', param).
+                then((res) => {
+                    this.selInfo = res.data.selinfo;
+                })
+            this.modalHandler();
         },
     },
     mounted() {
