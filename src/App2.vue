@@ -9,7 +9,7 @@
 
 
 <script>
-  import CheckboxItem from './components/CheckboxItem2.vue';
+  import CheckboxItem from './components/hsb_comp/CheckboxItem2.vue';
   export default {
     name: "App",
     components: { CheckboxItem },

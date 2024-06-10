@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import Menu from '@/components/LeftMenu.vue'
+import Menu from '@/components/hsb_comp/LeftMenu.vue'
 export default {
   data: function() {
     return {
