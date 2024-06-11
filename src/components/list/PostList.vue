@@ -44,6 +44,9 @@
         wrapperClass,
       };
     },
+    components: {
+      PostListItem
+    },
   });
   </script>
   

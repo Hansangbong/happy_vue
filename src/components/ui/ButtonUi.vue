@@ -1,5 +1,5 @@
 <template>
-    <button :class="buttonClass" @click="onClick">{{ title || "버튼"  }}</button>
+    <button :class="buttonClass" @click="onClick">{{ title  }}</button>
 </template>
 
 <script>
@@ -12,7 +12,7 @@ const buttonClass = css`
       border-width: 1px;
       border-radius: 8px;
       cursor: pointer;
-    `;
+      `;
 
 export default {
   
@@ -20,21 +20,18 @@ export default {
      props: {
         title: {
             type: String,
-            default: ''
+            default: '디폴트버튼'
+         },
+         onClick: {
+             type: Function,
+            required: false,
         },
-        onClick: {
-            type: Function,
-            default: () => {}
-        }
      },
-     components:{
-        
-     },
-
-    setup(){
+    setup() {
+      
         const buttonText = ref('Click me');
 
-        return { buttonText };
+        return { buttonText,buttonClass };
     }
 
 }

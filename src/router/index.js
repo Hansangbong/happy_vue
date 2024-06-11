@@ -5,11 +5,25 @@ import Notice from '../views/system/Notice';
 import SamplePage5 from '@/views/sampletest/SamplePage5.vue';
 import LectureHandle from '@/views/sampletest/sampletest5/LectureHandle.vue';
 
+import PostViewPage from '@/components/page/PostViewPage.vue';
+import PostWritePage from '@/components/page/PostWritePage.vue';
+import Board from '@/components/page/Board.vue';
+
 const routes = [
     {
         path: '/',
-        name: 'home',
-        component: Login,
+        name: 'Board',
+        component: Board,
+    },
+    {
+        path: '/post-wirte',
+        name: 'PostWritePage',
+        component: PostWritePage,
+    },
+    {
+        path: '/post-view',
+        name: 'PostViewPage',
+        component: PostViewPage,
     },
     {
         path: '/login',
