@@ -32,6 +32,7 @@ import { css } from '@emotion/css';
 import CommentList from '../list/CommentList.vue';
 import TextInputUi from '../ui/TextInputUi.vue';
 import ButtonUi from '../ui/ButtonUi.vue';
+import posts from '@/components/list/posts.json';
 
 export default defineComponent({
   name: 'Post',
@@ -43,7 +44,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const router = useRouter();
-    const postId = route.params.postId;
+    const postId = route.params.id;
 
     // Sample data for demonstration purposes
     const data = [
@@ -51,7 +52,7 @@ export default defineComponent({
       { id: 2, title: 'Post 2', content: 'Content 2', comments: [] },
     ];
 
-    const post = data.find((item) => item.id == postId);
+    const post = posts.find((item) => item.id == postId);
     const comment = ref('');
 
     const navigateToHome = () => {
@@ -115,6 +116,7 @@ export default defineComponent({
       titleTextClass,
       contentTextClass,
       commentLabelClass,
+      posts,
     };
   },
 });

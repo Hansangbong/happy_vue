@@ -1,6 +1,6 @@
 <template>
-    <div :class="wrapperClass" @click="onClick">
-      <p :class="CommentTextClass">{{ post.comment }}</p>
+    <div :class="wrapperClass">
+      <p :class="ContextTextClass">{{ post }}</p>
     </div>
   </template>
   
@@ -15,10 +15,6 @@
         type: Object,
         required: true,
       },
-      onClick: {
-        type: Function,
-        default: () => {},
-      },
     },
     setup(props) {
       const wrapperClass = css`
@@ -30,7 +26,6 @@
         justify-content: center;
         border: 1px solid grey;
         border-radius: 8px;
-        cursor: pointer;
         background: white;
   
         &:hover {
@@ -42,10 +37,12 @@
         font-size: 16px;
         white-space: pre-wrap;
       `;
-  
+
+      console.log("코멘트아이템이 받은 props입니다 : ", props.post);
+      
       return {
         wrapperClass,
-        titleTextClass,
+        ContextTextClass,
       };
     },
   });

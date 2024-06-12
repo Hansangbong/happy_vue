@@ -2,13 +2,12 @@
     <textarea
         :class="textareaClass"
         :style="{ height: height ? height + 'px' : 'auto' }"
-        :value="value"
-        @input="onChange"
+        v-model="newText"
     />
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { ref, defineComponent } from 'vue';
 import { css } from "@emotion/css";
 
 export default defineComponent({
@@ -18,7 +17,7 @@ export default defineComponent({
             type: Number,
             default: null,
         },
-        value:{
+        title:{
             type: String,
             default: ''
         },
@@ -35,8 +34,17 @@ export default defineComponent({
         line-height: 20px;
         `;
 
+
+
+
+        const newText = ref('');
+        
+        const sendText = () => {
+            return newText.value;
+        }
+
         return {
-            textareaClass,
+            textareaClass,newText, sendText,
         };
     },
     

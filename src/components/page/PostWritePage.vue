@@ -1,16 +1,20 @@
 <template>
   <div :class="wrapperClass">
+    <h2>새 글 작성하기</h2>
     <div :class="containerClass">
+      <p>제목</p>
       <TextInputUi
         :height="20"
-        v-model="title"
+        ref="title"
       />
+      <p>내용</p>
       <TextInputUi
         :height="20"
-        v-model="content"
+        ref="content"
       />
       <ButtonUi
         :title="save"
+        @click="saveText"
       />
       <ButtonUi
         :title="cancle"
@@ -34,14 +38,33 @@ export default defineComponent({
     ButtonUi,
   },
   setup() {
-    const title = ref('BUTTON');
-    const content = ref('');
-    const save = ref('저장');
-    const cancle = ref('취소');
-    const router = useRouter(); //  uRL 이동
+    const router = useRouter(); //  uRL 이동용
 
     const goHome = () => {
       router.push('/');
+    }
+
+
+
+
+    
+    const save = ref('저장');
+    const cancle = ref('취소');
+    const title = ref(null);
+    const content = ref(null);
+
+    const saveText = () => {
+      if (title.value) {
+        console.log("새로 입력된 제목입니다: ",title.value.sendText());
+      } else {
+        console.log("title 값이 없습니다",title.value.sendText())
+      }
+
+      if (content.value) {
+        console.log("새로 입력된 내용입니다: ",content.value.sendText());
+      } else {
+        console.log("content 값이 없습니다",content.value.sendText())
+      }
     }
 
     const wrapperClass = css`
@@ -71,6 +94,7 @@ export default defineComponent({
       containerClass,
       goHome,
       router,
+      saveText,
     };
   },
 });

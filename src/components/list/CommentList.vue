@@ -1,10 +1,9 @@
 <template>
     <div :class="wrapperClass">
       <CommentListItem
-        v-for="post in posts"
+        v-for="post in comments"
         :key="post.id"
         :post="post"
-        @click="() => onClickItem(post)"
       />
     </div>
   </template>
@@ -12,21 +11,17 @@
   <script>
   import { defineComponent } from 'vue';
   import { css } from '@emotion/css';
-  import PostListItem from './PostListItem.vue'; // 경로를 실제 경로로 변경하세요
+  import CommentListItem from './CommentListItem.vue'; // 경로를 실제 경로로 변경하세요
   
   export default defineComponent({
     name: 'CommentList',
     props: {
-      posts: {
+      comments: {
         type: Array,
         required: true,
       },
-      onClickItem: {
-        type: Function,
-        default: () => {},
-      },
     },
-    setup() {
+    setup(props) {
       const wrapperClass = css`
         width: calc(100% - 32px);
         padding: 16px;
@@ -39,11 +34,12 @@
           margin-bottom: 16px;
         }
       `;
-  
+      console.log("뷰에서받은 props입니다 : ",props.comments);
       return {
         wrapperClass,
       };
     },
+    components:{CommentListItem},
   });
   </script>
   

@@ -44,6 +44,7 @@
 
 
       const router = useRouter();
+      
 
       const goView = () => {
         console.log("setup의 프롭스입니다.: ",props)
@@ -56,6 +57,7 @@
         titleTextClass,
         router,
         goView,
+
       };
     },
   });
