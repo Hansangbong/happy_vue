@@ -18,6 +18,7 @@ import { ref } from 'vue';
 import PostList from '../list/PostList.vue';
 import ButtonUi from '../ui/ButtonUi.vue';
 import { useRoute, useRouter } from 'vue-router';
+import axios from 'axios';
 
 
 
@@ -30,6 +31,17 @@ export default {
                 { "title": "TEST", "id":4 }, { "title": "오늘의 날씨" , "id":5}]
         );
 
+        const requestAPI = () => {
+            //const url = "https://todosvc.bmaster.kro.kr/todolist/gdhong"; //프록시에 주조 설정
+            const url = "/api/todolist/gdhong"; // 프록시에 설정된 주소의 뒤에 붙여서 요청됨
+            axios.get(url).then((response) => {
+                console.log("# 응답객체 : ", response);
+            });
+        };
+
+
+
+
 
         const title = ref("새 글");
         const route = useRoute(); // url을 통해 파라미터의 값을 넘겨 줄 때 사용
@@ -41,12 +53,16 @@ export default {
 
         
         return {
-            posts, title, router, route, goWrite
+            posts, title, router, route, goWrite, requestAPI,
         }
     },
     components: {
         PostList,ButtonUi
     },
+    mounted() {
+        this.requestAPI();
+        console.log("마운티드발동, API 호출");
+    }
 }
 </script>
 
