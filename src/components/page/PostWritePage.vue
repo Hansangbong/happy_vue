@@ -41,7 +41,7 @@ export default defineComponent({
     const router = useRouter(); //  uRL 이동용
 
     const goHome = () => {
-      router.push('/');
+      router.push('/board');
     }
 
 

@@ -3,9 +3,8 @@
       <PostListItem
         v-for="post in posts"
         :key="post.id"
-        :post="post"
-        @click="() => onClickItem(post)"
-      />
+        :post="post" 
+      /> <!-- text박스 하나에 post를 프롭스로 하나씩 전달  -->
     </div>
   </template>
   
@@ -20,10 +19,6 @@
       posts: {
         type: Array,
         required: true,
-      },
-      onClickItem: {
-        type: Function,
-        default: () => {},
       },
     },
     setup() {

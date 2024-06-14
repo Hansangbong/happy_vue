@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import PostList from '../list/PostList.vue';
 import ButtonUi from '../ui/ButtonUi.vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -26,17 +26,15 @@ import axios from 'axios';
 export default {
     name: "Board",
     setup() {
-        const posts = ref(
-            [{ "title": "제목입니다", "id":1 }, { "title": "두 번째제목", "id":2 }, { "title": "테스트입니다" , "id":3},
-                { "title": "TEST", "id":4 }, { "title": "오늘의 날씨" , "id":5}]
-        );
+        const posts = ref([]);
+        const posts2 = reactive('');
 
         const requestAPI = () => {
-            //const url = "https://todosvc.bmaster.kro.kr/todolist/gdhong"; //프록시에 주조 설정
-            const url = "/api/todolist/gdhong"; // 프록시에 설정된 주소의 뒤에 붙여서 요청됨
-            axios.get(url).then((response) => {
-                console.log("# 응답객체 : ", response);
-            });
+            let param = new URLSearchParams();
+            axios.get('/test', param).then((res) => {
+                console.log("성공햇습니다!");
+                posts.value = res.data;
+            })
         };
 
 
@@ -53,7 +51,7 @@ export default {
 
         
         return {
-            posts, title, router, route, goWrite, requestAPI,
+            posts, title, router, route, goWrite, requestAPI,posts2,
         }
     },
     components: {

@@ -11,7 +11,7 @@ import Board from '@/components/page/Board.vue';
 
 const routes = [
     {
-        path: '/',
+        path: '/board',
         name: 'Board',
         component: Board,
     },
@@ -24,6 +24,11 @@ const routes = [
         path: '/post-view/:id',
         name: 'PostViewPage',
         component: PostViewPage,
+    },
+    {
+        path: '/',
+        name: 'home',
+        component: Login,
     },
     {
         path: '/login',

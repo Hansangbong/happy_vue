@@ -48,8 +48,7 @@
 
       const goView = () => {
         console.log("setup의 프롭스입니다.: ",props)
-        router.push(`/post-view/${props.post.id}`);
-        
+        router.push(`/post-view/${props.post.id}`);  //컬럼1개의 데이터만 받았기 때문에 필터링 할 필요 없이 id를 파라미터로 전달
       }
       
       return {

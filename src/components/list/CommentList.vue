@@ -34,7 +34,7 @@
           margin-bottom: 16px;
         }
       `;
-      console.log("뷰에서받은 props입니다 : ",props.comments);
+
       return {
         wrapperClass,
       };

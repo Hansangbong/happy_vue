@@ -6,19 +6,19 @@
         @click="navigateToHome"
       />
       <div :class="postContainerClass">
-        <p :class="titleTextClass">{{ post.title }}</p>
-        <p :class="contentTextClass">{{ post.content }}</p>
+        <p :class="titleTextClass">{{ data.title }}</p>
+        <p :class="contentTextClass">{{ data.content }}</p>
       </div>
 
       <p :class="commentLabelClass">댓글</p>
-      <CommentList :comments="post.comments" />
+      <CommentList :comments="data.comments" />
 
       <TextInputUi
         :height="40"
         v-model="comment"
       />
       <ButtonUi
-        title="댓글 작성하기"
+        title="댓글 저장"
         @click="submitComment"
       />
     </div>
@@ -33,6 +33,7 @@ import CommentList from '../list/CommentList.vue';
 import TextInputUi from '../ui/TextInputUi.vue';
 import ButtonUi from '../ui/ButtonUi.vue';
 import posts from '@/components/list/posts.json';
+import axios from 'axios';
 
 export default defineComponent({
   name: 'Post',
@@ -46,25 +47,48 @@ export default defineComponent({
     const router = useRouter();
     const postId = route.params.id;
 
-    // Sample data for demonstration purposes
-    const data = [
-      { id: 1, title: 'Post 1', content: 'Content 1', comments: [] },
-      { id: 2, title: 'Post 2', content: 'Content 2', comments: [] },
-    ];
 
-    const post = posts.find((item) => item.id == postId);
+
+
+
+    // Sample data for demonstration purposes
+    const data = ref([]);
+    //const post = posts.find((item) => item.id == postId);  //조건에 맞는 json 객체를 찾아서 초기화.
+
+    const detailAPI = () => {
+      let params = new URLSearchParams();
+      params.append('id', postId);
+      axios.post('/test/detail', params).then((res) => {
+        console.log("디테일 메서드가 실행됐습니다. :", res.data);
+        data.value = res.data[0];
+      });
+    }
+    
     const comment = ref('');
 
-    const navigateToHome = () => {
-      router.push('/');
+
+
+
+
+
+
+    const navigateToHome = () => { //뒤로가기 버튼 실행
+      router.push('/board');
     };
 
-    const submitComment = () => {
+    const submitComment = () => {//댓글 저장 버튼 실행
       // Add comment logic here
       console.log('Comment submitted:', comment.value);
-      router.push('/');
+      router.push('/board');
     };
 
+
+
+
+
+
+
+    //CSS 클래스 선언
     const wrapperClass = css`
       padding: 16px;
       width: calc(100% - 32px);
@@ -106,7 +130,6 @@ export default defineComponent({
     `;
 
     return {
-      post,
       comment,
       navigateToHome,
       submitComment,
@@ -117,7 +140,13 @@ export default defineComponent({
       contentTextClass,
       commentLabelClass,
       posts,
+      detailAPI,
+      data,
     };
+  },
+  mounted() {
+    this.detailAPI();
+
   },
 });
 </script>

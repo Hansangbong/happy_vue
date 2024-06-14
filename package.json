@@ -2,6 +2,7 @@
     "name": "my-vue-app",
     "version": "0.1.0",
     "private": true,
+    "main": "index.js",
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
@@ -11,10 +12,15 @@
         "@emotion/css": "^11.11.2",
         "@emotion/styled": "^11.11.5",
         "axios": "^1.6.8",
+        "body-parser": "^1.20.2",
         "bootstrap": "^5.3.3",
         "bootstrap-icons": "^1.11.3",
         "core-js": "^3.8.3",
+        "cors": "^2.8.5",
+        "express": "^4.19.2",
         "mitt": "^3.0.1",
+        "mysql": "^2.18.1",
+        "mysql2": "^3.10.1",
         "vue": "^3.2.13",
         "vue-bs-modal": "^0.7.9",
         "vue-router": "^4.0.3",
@@ -49,6 +55,7 @@
         },
         "rules": {}
     },
+    "proxy": "http://localhost:3000",
     "browserslist": [
         "> 1%",
         "last 2 versions",
