@@ -32,7 +32,6 @@ export default {
         const requestAPI = () => {
             let param = new URLSearchParams();
             axios.get('/test', param).then((res) => {
-                console.log("성공햇습니다!");
                 posts.value = res.data;
             })
         };
@@ -59,7 +58,6 @@ export default {
     },
     mounted() {
         this.requestAPI();
-        console.log("마운티드발동, API 호출");
     }
 }
 </script>

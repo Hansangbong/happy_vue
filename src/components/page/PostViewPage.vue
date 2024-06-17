@@ -9,7 +9,11 @@
         <p :class="titleTextClass">{{ data.title }}</p>
         <p :class="contentTextClass">{{ data.content }}</p>
       </div>
+      <span style="display: flex; justify-content: flex-end;">
+        <ButtonUi title="게시글 삭제" :onClick="deleteAPI"/>
+      </span>
 
+      <br/><br/><br/>
       <p :class="commentLabelClass">댓글</p>
       <CommentList :comments="data.comments" />
 
@@ -21,6 +25,7 @@
         title="댓글 저장"
         @click="submitComment"
       />
+      
     </div>
   </div>
 </template>
@@ -59,10 +64,18 @@ export default defineComponent({
       let params = new URLSearchParams();
       params.append('id', postId);
       axios.post('/test/detail', params).then((res) => {
-        console.log("디테일 메서드가 실행됐습니다. :", res.data);
         data.value = res.data[0];
       });
     }
+
+    const deleteAPI = () => {
+      let params = new URLSearchParams();
+      params.append('id', postId);
+      axios.post('/test/delete', params).then((res) => {
+        navigateToHome();
+      })
+    }
+
     
     const comment = ref('');
 
@@ -142,6 +155,7 @@ export default defineComponent({
       posts,
       detailAPI,
       data,
+      deleteAPI,
     };
   },
   mounted() {
