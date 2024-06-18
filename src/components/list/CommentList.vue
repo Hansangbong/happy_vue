@@ -1,6 +1,6 @@
 <template>
-    <div :class="wrapperClass">
-      <CommentListItem
+    <div :class="wrapperClass"> <!--댓글 수 많큼 반복하며 댓글 컴포넌트를 그려주기  -->
+      <CommentListItem   
         v-for="post in comments"
         :key="post.id"
         :post="post"

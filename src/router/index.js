@@ -26,6 +26,11 @@ const routes = [
         component: PostViewPage,
     },
     {
+        path: '/post-write/:id',
+        name: 'PostWritePage',
+        component: PostWritePage,
+    },
+    {
         path: '/',
         name: 'home',
         component: Login,

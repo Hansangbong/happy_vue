@@ -5,6 +5,8 @@
       <p>제목</p>
       <TextInputUi
         :height="20"
+        :title="propsTitle"
+        :content="propsContent"
         ref="title"
       />
       <p>내용</p>
@@ -31,6 +33,7 @@ import TextInputUi from '../ui/TextInputUi.vue';
 import ButtonUi from '../ui/ButtonUi.vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
+import emitter from '@/eventBus.js';
 
 export default defineComponent({
   name: 'PostWritePage',
@@ -42,15 +45,21 @@ export default defineComponent({
     const router = useRouter(); //  uRL 이동용
 
     const goHome = () => {
+      
       router.push('/board');
     }
 
+    //let emitter = mitt();
 
 
 
     
     const save = ref('저장');
     const cancle = ref('취소');
+
+    let propsTitle = ref('');
+    let propsContent = ref('');
+    
     const title = ref(null);
     const content = ref(null);
 
@@ -98,7 +107,21 @@ export default defineComponent({
       goHome,
       router,
       saveText,
+      propsTitle,
+      propsContent
     };
+  },
+  mounted() {
+    emitter.on('test', data => {
+      console.log("에미터로 받아온 데이터입니다 :", data);
+       propsTitle.value = ref(data.title);
+       propsContent.value = ref(data.content);
+     })
+  },
+  unmounted() {
+    emitter.off('test', data => {
+      console.log("에미터 해제");
+    });
   },
 });
 </script>

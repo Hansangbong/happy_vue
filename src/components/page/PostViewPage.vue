@@ -10,12 +10,14 @@
         <p :class="contentTextClass">{{ data.content }}</p>
       </div>
       <span style="display: flex; justify-content: flex-end;">
+        <ButtonUi title="게시글 수정" :onClick="goUpdate" style="margin-right: 10px;"/>
         <ButtonUi title="게시글 삭제" :onClick="deleteAPI"/>
       </span>
 
+
       <br/><br/><br/>
-      <p :class="commentLabelClass">댓글</p>
-      <CommentList :comments="data.comments" />
+      <p :class="commentLabelClass">댓글</p>      <!-- 댓글 출력 부분-->
+      <CommentList :comments="comment" />
 
       <TextInputUi
         :height="40"
@@ -39,6 +41,8 @@ import TextInputUi from '../ui/TextInputUi.vue';
 import ButtonUi from '../ui/ButtonUi.vue';
 import posts from '@/components/list/posts.json';
 import axios from 'axios';
+import mitt from 'mitt';
+import emitter from '@/eventBus.js';
 
 export default defineComponent({
   name: 'Post',
@@ -51,6 +55,7 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const postId = route.params.id;
+    //let emitter = mitt();
 
 
 
@@ -58,6 +63,7 @@ export default defineComponent({
 
     // Sample data for demonstration purposes
     const data = ref([]);
+    const comment = ref([]);
     //const post = posts.find((item) => item.id == postId);  //조건에 맞는 json 객체를 찾아서 초기화.
 
     const detailAPI = () => {
@@ -65,6 +71,8 @@ export default defineComponent({
       params.append('id', postId);
       axios.post('/test/detail', params).then((res) => {
         data.value = res.data[0];
+        console.log(JSON.parse(data.value.comment))
+        comment.value = JSON.parse(data.value.comment);
       });
     }
 
@@ -76,8 +84,12 @@ export default defineComponent({
       })
     }
 
+    const goUpdate = () => {
+      emitter.emit('test', data.value);
+      router.push(`/post-write/${postId}`);
+    }
+
     
-    const comment = ref('');
 
 
 
@@ -91,7 +103,6 @@ export default defineComponent({
 
     const submitComment = () => {//댓글 저장 버튼 실행
       // Add comment logic here
-      console.log('Comment submitted:', comment.value);
       router.push('/board');
     };
 
@@ -156,6 +167,9 @@ export default defineComponent({
       detailAPI,
       data,
       deleteAPI,
+      goUpdate,
+      comment,
+      //emitter,
     };
   },
   mounted() {

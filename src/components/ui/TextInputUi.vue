@@ -21,9 +21,9 @@ export default defineComponent({
             type: String,
             default: ''
         },
-        onChange: {
-            type: Function,
-            default: () => {}
+        content: {
+            type: String,
+            default: ''
         }
     },
     setup(props){
@@ -38,6 +38,7 @@ export default defineComponent({
 
 
         const newText = ref('');
+        
         
         const sendText = () => {
             return newText.value;

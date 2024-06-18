@@ -1,6 +1,6 @@
 <template>
     <div :class="wrapperClass">
-      <p :class="ContextTextClass">{{ post }}</p>
+      <p :class="ContextTextClass">{{ post.c }}</p>
     </div>
   </template>
   
@@ -37,8 +37,6 @@
         font-size: 16px;
         white-space: pre-wrap;
       `;
-
-      console.log("코멘트아이템이 받은 props입니다 : ", props.post);
       
       return {
         wrapperClass,
