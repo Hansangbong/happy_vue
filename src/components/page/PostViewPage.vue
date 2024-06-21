@@ -17,11 +17,12 @@
 
       <br/><br/><br/>
       <p :class="commentLabelClass">댓글</p>      <!-- 댓글 출력 부분-->
-      <CommentList :comments="comment" />
+      <hr>
+      <CommentList :comments="comment" :cmtIds="cmtId" @uptodateSuccess="detailAPI"/>
 
       <TextInputUi
         :height="40"
-        v-model="comment"
+        ref="childCMT"
       />
       <ButtonUi
         title="댓글 저장"
@@ -41,8 +42,6 @@ import TextInputUi from '../ui/TextInputUi.vue';
 import ButtonUi from '../ui/ButtonUi.vue';
 import posts from '@/components/list/posts.json';
 import axios from 'axios';
-import mitt from 'mitt';
-import emitter from '@/eventBus.js';
 
 export default defineComponent({
   name: 'Post',
@@ -55,28 +54,29 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const postId = route.params.id;
-    //let emitter = mitt();
 
 
 
 
 
-    // Sample data for demonstration purposes
-    const data = ref([]);
-    const comment = ref([]);
+    
+    const data = ref([]); // 게시글의 제목과 내용을 받을 변수
+    const comment = ref([]); // 게시글의 댓글을 받을 변수
+    const cmtId = ref([]); // 게시글의 댓글의 아이디를 받을 변수
     //const post = posts.find((item) => item.id == postId);  //조건에 맞는 json 객체를 찾아서 초기화.
 
-    const detailAPI = () => {
+    const detailAPI = () => {       //게시글 클릭 시 글 내용 보기
       let params = new URLSearchParams();
       params.append('id', postId);
       axios.post('/test/detail', params).then((res) => {
         data.value = res.data[0];
-        console.log(JSON.parse(data.value.comment))
         comment.value = JSON.parse(data.value.comment);
+        cmtId.value = JSON.parse(data.value.cmtid);
+       
       });
     }
 
-    const deleteAPI = () => {
+    const deleteAPI = () => {   //게시글 삭제 기능
       let params = new URLSearchParams();
       params.append('id', postId);
       axios.post('/test/delete', params).then((res) => {
@@ -84,12 +84,34 @@ export default defineComponent({
       })
     }
 
-    const goUpdate = () => {
-      emitter.emit('test', data.value);
-      router.push(`/post-write/${postId}`);
+    const goUpdate = () => {             //PostWritePage 로 이동
+      router.push({
+        path: `/post-edit/${postId}`,
+        state: { title: data.value.title, content:data.value.content},
+      });
     }
 
     
+
+
+
+    
+
+
+
+
+    const childCMT = ref([]);  // 댓글이 입력되는 TextInputUI 컴포넌트를 참조하기 위한 변수
+
+    const submitComment = () => {//댓글 저장 버튼 실행
+       let params = new URLSearchParams();
+       const comt = childCMT.value.sendText();
+       params.append('comment', comt);
+       params.append('id', postId);
+       axios.post('/test/comment_insert', params).then((res => {
+         detailAPI();
+         childCMT.value.clearText();
+       }))
+    };
 
 
 
@@ -98,13 +120,9 @@ export default defineComponent({
 
 
     const navigateToHome = () => { //뒤로가기 버튼 실행
-      router.push('/board');
+        router.push('/board');
     };
 
-    const submitComment = () => {//댓글 저장 버튼 실행
-      // Add comment logic here
-      router.push('/board');
-    };
 
 
 
@@ -168,8 +186,8 @@ export default defineComponent({
       data,
       deleteAPI,
       goUpdate,
-      comment,
-      //emitter,
+      childCMT,
+      cmtId
     };
   },
   mounted() {

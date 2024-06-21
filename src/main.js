@@ -7,6 +7,10 @@ import store from './store';
 import axios from 'axios';
 import Modal from 'vue-bs-modal';
 import mitt from 'mitt';
+import { createPinia } from 'pinia';
+
+const pinia = createPinia();
+
 
 
 //local css 적용
@@ -27,7 +31,7 @@ let emitter = mitt();
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 const app = createApp(App);
-app.use(store).use(router).use(Modal, { dynamic: true }).mount('#app');
+app.use(store).use(router).use(Modal, { dynamic: true }).use(pinia).mount('#app');
 
 // app에 통신할 때 axios 쓸 거야 선언
 app.config.globalProperties.axios = axios;

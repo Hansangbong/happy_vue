@@ -8,6 +8,8 @@ import LectureHandle from '@/views/sampletest/sampletest5/LectureHandle.vue';
 import PostViewPage from '@/components/page/PostViewPage.vue';
 import PostWritePage from '@/components/page/PostWritePage.vue';
 import Board from '@/components/page/Board.vue';
+import App1 from '@/components/page/App1.vue';
+import App2 from '@/components/page/App2.vue';
 
 const routes = [
     {
@@ -16,7 +18,7 @@ const routes = [
         component: Board,
     },
     {
-        path: '/post-wirte',
+        path: '/post-write',
         name: 'PostWritePage',
         component: PostWritePage,
     },
@@ -26,9 +28,21 @@ const routes = [
         component: PostViewPage,
     },
     {
-        path: '/post-write/:id',
-        name: 'PostWritePage',
+        path: '/post-edit/:id',
+        name: 'PostEditPage',
         component: PostWritePage,
+        //props: { title: 'default1', content: 'default2' }
+        props: true
+    },
+    {
+        path: '/app1',
+        name: 'App1',
+        component: App1,
+    },
+    {
+        path: '/app2',
+        name: 'App2',
+        component: App2,
     },
     {
         path: '/',

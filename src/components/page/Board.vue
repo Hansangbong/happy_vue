@@ -44,7 +44,7 @@ export default {
         const route = useRoute(); // url을 통해 파라미터의 값을 넘겨 줄 때 사용
         const router = useRouter(); //  uRL 이동
         const goWrite = () => {
-            router.push('/post-wirte');
+            router.push('/post-write');
         }
         
 

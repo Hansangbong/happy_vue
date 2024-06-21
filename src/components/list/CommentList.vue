@@ -1,17 +1,20 @@
 <template>
     <div :class="wrapperClass"> <!--댓글 수 많큼 반복하며 댓글 컴포넌트를 그려주기  -->
       <CommentListItem   
-        v-for="post in comments"
-        :key="post.id"
+        v-for="(post, index) in comments"
+        :key="index"
         :post="post"
+        :postId="cmtIds[index]"
+        @deleteSuccess="receiveSuccess"
       />
+      
     </div>
   </template>
   
   <script>
   import { defineComponent } from 'vue';
   import { css } from '@emotion/css';
-  import CommentListItem from './CommentListItem.vue'; // 경로를 실제 경로로 변경하세요
+  import CommentListItem from './CommentListItem.vue';
   
   export default defineComponent({
     name: 'CommentList',
@@ -20,8 +23,21 @@
         type: Array,
         required: true,
       },
+      cmtIds: {
+        type: Array,
+        required: true,
+      }
     },
-    setup(props) {
+    setup(props,context) {
+      //console.log("props: ", props.cmtIds) 배열이라서 그런가 콘솔로 내용이 확인이 안됨;;
+
+      const receiveSuccess = () => {
+        context.emit('uptodateSuccess');
+      }
+
+
+
+      
       const wrapperClass = css`
         width: calc(100% - 32px);
         padding: 16px;
@@ -35,8 +51,10 @@
         }
       `;
 
+      
+
       return {
-        wrapperClass,
+        wrapperClass,receiveSuccess
       };
     },
     components:{CommentListItem},
